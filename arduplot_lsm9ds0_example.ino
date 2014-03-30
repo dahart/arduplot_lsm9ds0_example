@@ -95,7 +95,9 @@ LSM9DS0 dof(MODE_SPI, LSM9DS0_CSG, LSM9DS0_CSXM);
 #define PRINT_CALCULATED
 //#define PRINT_RAW
 
-#define PRINT_SPEED 500 // 500 ms between prints
+#define PRINT_SPEED 20 // 20 ms between prints
+
+const char* sep = "\t";
 
 void setup()
 {
@@ -107,26 +109,46 @@ void setup()
   //uint16_t status = dof.begin(dof.G_SCALE_2000DPS, 
   //                            dof.A_SCALE_6G, dof.M_SCALE_2GS);
   
-  // begin() returns a 16-bit value which includes both the gyro 
-  // and accelerometers WHO_AM_I response. You can check this to
-  // make sure communication was successful.
-  Serial.print("LSM9DS0 WHO_AM_I's returned: 0x");
-  Serial.println(status, HEX);
-  Serial.println("Should be 0x49D4");
+  // // begin() returns a 16-bit value which includes both the gyro 
+  // // and accelerometers WHO_AM_I response. You can check this to
+  // // make sure communication was successful.
+  // Serial.print("LSM9DS0 WHO_AM_I's returned: 0x");
+  // Serial.println(status, HEX);
+  // Serial.println("Should be 0x49D4");
   Serial.println();
+
+  Serial.println("n\tgx\tgy\tgz\tax\tay\taz\tmx\tmy\tmz");
+  
+  Serial.println("r\tgx\t-250\t250\tgy\t-250\t250\tgz\t-250\t250");
+  Serial.println("r\tax\t-2\t2\tay\t-2\t2\taz\t-2\t2");
+  Serial.println("r\tmx\t-0.5\t0.5\tmy\t-0.5\t0.5\tmz\t-0.5\t0.5");
+
+  Serial.println("p\tgx\tgy");
+  // Serial.println("p\tgx\tgz");
+  // Serial.println("p\tgy\tgz");
+
+  // Serial.println("p\tax\tay");
+  // Serial.println("p\tax\taz");
+  Serial.println("p\tay\taz");
+
+  Serial.println("p\tmx\tmy");
+  // Serial.println("p\tmx\tmz");
+  // Serial.println("p\tmy\tmz");
 }
 
 void loop()
 {
+  Serial.print("d");
   printGyro();  // Print "G: gx, gy, gz"
   printAccel(); // Print "A: ax, ay, az"
   printMag();   // Print "M: mx, my, mz"
+  Serial.println();
   
   // Print the heading and orientation for fun!
-  printHeading((float) dof.mx, (float) dof.my);
-  printOrientation(dof.calcAccel(dof.ax), dof.calcAccel(dof.ay), 
-                   dof.calcAccel(dof.az));
-  Serial.println();
+  // printHeading((float) dof.mx, (float) dof.my);
+  // printOrientation(dof.calcAccel(dof.ax), dof.calcAccel(dof.ay), 
+  //  dof.calcAccel(dof.az));
+  // Serial.println();
   
   delay(PRINT_SPEED);
 }
@@ -140,22 +162,24 @@ void printGyro()
   
   // Now we can use the gx, gy, and gz variables as we please.
   // Either print them as raw ADC values, or calculated in DPS.
-  Serial.print("G: ");
+  // Serial.print("G: ");
 #ifdef PRINT_CALCULATED
   // If you want to print calculated values, you can use the
   // calcGyro helper function to convert a raw ADC value to
   // DPS. Give the function the value that you want to convert.
+  Serial.print(sep);
   Serial.print(dof.calcGyro(dof.gx), 2);
-  Serial.print(", ");
+  Serial.print(sep);
   Serial.print(dof.calcGyro(dof.gy), 2);
-  Serial.print(", ");
-  Serial.println(dof.calcGyro(dof.gz), 2);
+  Serial.print(sep);
+  Serial.print(dof.calcGyro(dof.gz), 2);
 #elif defined PRINT_RAW
+  Serial.print(sep);
   Serial.print(dof.gx);
-  Serial.print(", ");
+  Serial.print(sep);
   Serial.print(dof.gy);
-  Serial.print(", ");
-  Serial.println(dof.gz);
+  Serial.print(sep);
+  Serial.print(dof.gz);
 #endif
 }
 
@@ -168,22 +192,24 @@ void printAccel()
   
   // Now we can use the ax, ay, and az variables as we please.
   // Either print them as raw ADC values, or calculated in g's.
-  Serial.print("A: ");
+  // Serial.print("A: ");
 #ifdef PRINT_CALCULATED
   // If you want to print calculated values, you can use the
   // calcAccel helper function to convert a raw ADC value to
   // g's. Give the function the value that you want to convert.
+  Serial.print(sep);
   Serial.print(dof.calcAccel(dof.ax), 2);
-  Serial.print(", ");
+  Serial.print(sep);
   Serial.print(dof.calcAccel(dof.ay), 2);
-  Serial.print(", ");
-  Serial.println(dof.calcAccel(dof.az), 2);
+  Serial.print(sep);
+  Serial.print(dof.calcAccel(dof.az), 2);
 #elif defined PRINT_RAW 
+  Serial.print(sep);
   Serial.print(dof.ax);
-  Serial.print(", ");
+  Serial.print(sep);
   Serial.print(dof.ay);
-  Serial.print(", ");
-  Serial.println(dof.az);
+  Serial.print(sep);
+  Serial.print(dof.az);
 #endif
 
 }
@@ -197,22 +223,24 @@ void printMag()
   
   // Now we can use the mx, my, and mz variables as we please.
   // Either print them as raw ADC values, or calculated in Gauss.
-  Serial.print("M: ");
+  // Serial.print("M: ");
 #ifdef PRINT_CALCULATED
   // If you want to print calculated values, you can use the
   // calcMag helper function to convert a raw ADC value to
   // Gauss. Give the function the value that you want to convert.
+  Serial.print(sep);
   Serial.print(dof.calcMag(dof.mx), 2);
-  Serial.print(", ");
+  Serial.print(sep);
   Serial.print(dof.calcMag(dof.my), 2);
-  Serial.print(", ");
-  Serial.println(dof.calcMag(dof.mz), 2);
+  Serial.print(sep);
+  Serial.print(dof.calcMag(dof.mz), 2);
 #elif defined PRINT_RAW
+  Serial.print(sep);
   Serial.print(dof.mx);
-  Serial.print(", ");
+  Serial.print(sep);
   Serial.print(dof.my);
-  Serial.print(", ");
-  Serial.println(dof.mz);
+  Serial.print(sep);
+  Serial.print(dof.mz);
 #endif
 }
 
@@ -258,6 +286,6 @@ void printOrientation(float x, float y, float z)
   
   Serial.print("Pitch, Roll: ");
   Serial.print(pitch, 2);
-  Serial.print(", ");
+  Serial.print(sep);
   Serial.println(roll, 2);
 }
