@@ -135,9 +135,9 @@ void setup()
   // Serial.println("p mx mz");
   // Serial.println("p my mz");
   
-//  Serial.println("c ax 255 0 0 ay 255 0 0 az 255 0 0");
-//  Serial.println("c gx 0 255 0 gy 0 255 0 gz 0 255 0");
-//  Serial.println("c mx 0 0 255 my 0 0 255 mz 0 0 255");
+  Serial.println("c ax 255 0 0 ay 255 0 0 az 255 0 0");
+  Serial.println("c gx 0 255 0 gy 0 255 0 gz 0 255 0");
+  Serial.println("c mx 0 0 255 my 0 0 255 mz 0 0 255");
 }
 
 void loop()
