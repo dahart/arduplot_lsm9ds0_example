@@ -97,7 +97,7 @@ LSM9DS0 dof(MODE_SPI, LSM9DS0_CSG, LSM9DS0_CSXM);
 
 #define PRINT_SPEED 20 // 20 ms between prints
 
-const char* sep = "\t";
+const char* sep = " ";
 
 void setup()
 {
@@ -117,23 +117,27 @@ void setup()
   // Serial.println("Should be 0x49D4");
   Serial.println();
 
-  Serial.println("n\tgx\tgy\tgz\tax\tay\taz\tmx\tmy\tmz");
+  Serial.println("n gx gy gz ax ay az mx my mz");
   
-  Serial.println("r\tgx\t-250\t250\tgy\t-250\t250\tgz\t-250\t250");
-  Serial.println("r\tax\t-2\t2\tay\t-2\t2\taz\t-2\t2");
-  Serial.println("r\tmx\t-0.5\t0.5\tmy\t-0.5\t0.5\tmz\t-0.5\t0.5");
+  Serial.println("r gx -250 250 gy -250 250 gz -250 250");
+  Serial.println("r ax -2 2 ay -2 2 az -2 2");
+  Serial.println("r mx -0.5 0.5 my -0.5 0.5 mz -0.5 0.5");
 
-  Serial.println("p\tgx\tgy");
-  // Serial.println("p\tgx\tgz");
-  // Serial.println("p\tgy\tgz");
+  Serial.println("p gx gy");
+  // Serial.println("p gx gz");
+  // Serial.println("p gy gz");
 
-  // Serial.println("p\tax\tay");
-  // Serial.println("p\tax\taz");
-  Serial.println("p\tay\taz");
+  // Serial.println("p ax ay");
+  // Serial.println("p ax az");
+  Serial.println("p ay az");
 
-  Serial.println("p\tmx\tmy");
-  // Serial.println("p\tmx\tmz");
-  // Serial.println("p\tmy\tmz");
+  Serial.println("p mx my");
+  // Serial.println("p mx mz");
+  // Serial.println("p my mz");
+  
+//  Serial.println("c ax 255 0 0 ay 255 0 0 az 255 0 0");
+//  Serial.println("c gx 0 255 0 gy 0 255 0 gz 0 255 0");
+//  Serial.println("c mx 0 0 255 my 0 0 255 mz 0 0 255");
 }
 
 void loop()
